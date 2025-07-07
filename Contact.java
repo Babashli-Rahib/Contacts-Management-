@@ -34,7 +34,8 @@ return birthday;
 }
     public String getCompany() { 
 return company;
-}
+        
+    }
 
     public void setPhoneNumber(String phoneNumber) {
 this.phoneNumber = phoneNumber; 
