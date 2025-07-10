@@ -36,3 +36,17 @@ public void addContact(Contact c) {
     public int getContactCount() {
         return contacts.size();
     }
+   public Contact searchContact(String query) {
+        String q = query.toLowerCase();
+        for (Contact c : contacts) {
+            if (c.getName().toLowerCase().contains(q) ||
+                c.getPhoneNumber().toLowerCase().contains(q) ||
+                c.getEmail().toLowerCase().contains(q) ||
+                c.getAddress().toLowerCase().contains(q) ||
+                c.getBirthday().toLowerCase().contains(q) ||
+                c.getCompany().toLowerCase().contains(q)) {
+                return c;
+            }
+        }
+        return null;
+    }
