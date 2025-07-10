@@ -17,3 +17,13 @@ public class ContactManager {
             System.out.println("No existing contacts file found.");
         }
     }
+ public void saveContacts(String filename) {
+        try (PrintWriter writer = new PrintWriter(filename)) {
+            for (Contact c : contacts) {
+                writer.println(c.getName() + "," + c.getPhoneNumber() + "," + c.getEmail() + "," + c.getAddress() + "," + c.getBirthday() + "," + c.getCompany());
+            }
+            System.out.println("Contacts saved successfully.");
+        } catch (IOException e) {
+            System.out.println("Error saving contacts.");
+        }
+    }
