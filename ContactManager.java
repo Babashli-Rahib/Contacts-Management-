@@ -50,3 +50,37 @@ public void addContact(Contact c) {
         }
         return null;
     }
+
+    public boolean deleteContact(Contact c) {
+        return contacts.remove(c);
+    }
+
+    public void sortContacts(int attribute) {
+        Comparator<Contact> comparator;
+        switch (attribute) {
+            case 1: comparator = Comparator.comparing(Contact::getName); break;
+            case 2: comparator = Comparator.comparing(Contact::getPhoneNumber); break;
+            case 3: comparator = Comparator.comparing(Contact::getEmail); break;
+            case 4: comparator = Comparator.comparing(Contact::getAddress); break;
+            case 5: comparator = Comparator.comparing(Contact::getBirthday); break;
+            case 6: comparator = Comparator.comparing(Contact::getCompany); break;
+            default: return;
+        }
+        contacts.sort(comparator);
+    }
+
+    public List<Contact> advancedFilter(String name, String phone, String email, String address, String birthday, String company) {
+        List<Contact> results = new ArrayList<>();
+        for (Contact c : contacts) {
+            if ((!ContactUtils.isNotEmpty(name)     || c.getName().toLowerCase().contains(name.toLowerCase())) &&
+                (!ContactUtils.isNotEmpty(phone)    || c.getPhoneNumber().toLowerCase().contains(phone.toLowerCase())) &&
+                (!ContactUtils.isNotEmpty(email)    || c.getEmail().toLowerCase().contains(email.toLowerCase())) &&
+                (!ContactUtils.isNotEmpty(address)  || c.getAddress().toLowerCase().contains(address.toLowerCase())) &&
+                (!ContactUtils.isNotEmpty(birthday) || c.getBirthday().toLowerCase().contains(birthday.toLowerCase())) &&
+                (!ContactUtils.isNotEmpty(company)  || c.getCompany().toLowerCase().contains(company.toLowerCase()))) {
+                results.add(c);
+            }
+        }
+        return results;
+    }
+} 
