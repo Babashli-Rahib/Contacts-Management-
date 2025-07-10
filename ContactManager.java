@@ -27,3 +27,12 @@ public class ContactManager {
             System.out.println("Error saving contacts.");
         }
     }
+public void addContact(Contact c) {
+        contacts.add(c);
+    }
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+    public int getContactCount() {
+        return contacts.size();
+    }
