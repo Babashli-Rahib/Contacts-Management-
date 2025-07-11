@@ -90,7 +90,7 @@ public class ContactsMenu {
         manager.addContact(new Contact(name, phone, email, address, birthday, company));
         System.out.println("Contact added successfully.");
     }
-private void listContacts() {
+    private void listContacts() {
         List<Contact> contacts = manager.getContacts();
         System.out.println("\nTotal Contacts: " + contacts.size());
         for (Contact c : contacts) {
@@ -117,4 +117,29 @@ private void listContacts() {
         } else {
             System.out.println("No matching contact found.");
         }
+    }
+    private void editContact(Contact c) {
+        String input;
+        System.out.print("New Phone (" + c.getPhoneNumber() + "): ");
+        input = scanner.nextLine();
+        if (ContactUtils.isNotEmpty(input)) {
+            if (ContactUtils.isValidPhone(input)) c.setPhoneNumber(input);
+            else System.out.println("Invalid phone. Keeping previous value.");
+        }
+        System.out.print("New Email (" + c.getEmail() + "): ");
+        input = scanner.nextLine();
+        if (ContactUtils.isNotEmpty(input)) {
+            if (ContactUtils.isValidEmail(input)) c.setEmail(input);
+            else System.out.println("Invalid email. Keeping previous value.");
+        }
+        System.out.print("New Address (" + c.getAddress() + "): ");
+        input = scanner.nextLine();
+        if (ContactUtils.isNotEmpty(input)) c.setAddress(input);
+        System.out.print("New Birthday (" + c.getBirthday() + "): ");
+        input = scanner.nextLine();
+        if (ContactUtils.isNotEmpty(input)) c.setBirthday(input);
+        System.out.print("New Company (" + c.getCompany() + "): ");
+        input = scanner.nextLine();
+        if (ContactUtils.isNotEmpty(input)) c.setCompany(input);
+        System.out.println("Contact updated.");
     }
