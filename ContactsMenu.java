@@ -34,3 +34,59 @@ public class ContactsMenu {
             }
         }
     }
+
+    private void addContact() {
+        String name, phone, email, address, birthday, company;
+        while (true) {
+            System.out.print("Enter Name (Last_First): ");
+            name = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(name)) { 
+                System.out.println("Name cannot be empty."); continue; 
+            }
+            break;
+        }
+        while (true) {
+            System.out.print("Enter Phone Number: ");
+            phone = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(phone)) { 
+                System.out.println("Phone cannot be empty."); 
+                continue; }
+            if (!ContactUtils.isValidPhone(phone)) { 
+                System.out.println("Phone must be numeric."); continue; 
+            }
+            break;
+        }
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(email)) { 
+                System.out.println("Email cannot be empty."); 
+                continue; }
+            if (!ContactUtils.isValidEmail(email)) { System.out.println("Invalid email format."); 
+                continue; }
+            break;
+        }
+        while (true) {
+            System.out.print("Enter Address (Line_City): ");
+            address = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(address)) { 
+                System.out.println("Address cannot be empty."); continue; }
+            break;
+        }
+        while (true) {
+            System.out.print("Enter Birthday (DD/MM/YYYY): ");
+            birthday = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(birthday)) { 
+                System.out.println("Birthday cannot be empty."); continue; }
+            break;
+        }
+        while (true) {
+            System.out.print("Enter Company: ");
+            company = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(company)) { 
+                System.out.println("Company cannot be empty."); continue; }
+            break;
+        }
+        manager.addContact(new Contact(name, phone, email, address, birthday, company));
+        System.out.println("Contact added successfully.");
+    }
