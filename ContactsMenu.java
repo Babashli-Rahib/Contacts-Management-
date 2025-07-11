@@ -90,3 +90,31 @@ public class ContactsMenu {
         manager.addContact(new Contact(name, phone, email, address, birthday, company));
         System.out.println("Contact added successfully.");
     }
+private void listContacts() {
+        List<Contact> contacts = manager.getContacts();
+        System.out.println("\nTotal Contacts: " + contacts.size());
+        for (Contact c : contacts) {
+            System.out.println(c);
+        }
+    }
+
+    private void searchContact() {
+        System.out.print("Search by Name/Phone/Email/Address/Birthday/Company: ");
+        String query = scanner.nextLine().toLowerCase();
+        Contact c = manager.searchContact(query);
+        if (c != null) {
+            System.out.println(c);
+            System.out.print("Edit (E) / Delete (D) / Back (B): ");
+            String action = scanner.nextLine().toUpperCase();
+            if (action.equals("D")) {
+                manager.deleteContact(c);
+                System.out.println("Contact deleted.");
+            } else if (action.equals("E")) {
+                editContact(c);
+            } else if (!action.equals("B")) {
+                System.out.println("Invalid action. Returning to menu.");
+            }
+        } else {
+            System.out.println("No matching contact found.");
+        }
+    }
