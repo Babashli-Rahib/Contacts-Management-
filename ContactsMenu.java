@@ -143,3 +143,14 @@ public class ContactsMenu {
         if (ContactUtils.isNotEmpty(input)) c.setCompany(input);
         System.out.println("Contact updated.");
     }
+    private void sortContacts() {
+        System.out.println("Sort by: 1-Name 2-Phone 3-Email 4-Address 5-Birthday 6-Company");
+        String choice = scanner.nextLine();
+        try {
+            int attr = Integer.parseInt(choice);
+            manager.sortContacts(attr);
+            System.out.println("Contacts sorted.");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid choice.");
+        }
+    }
