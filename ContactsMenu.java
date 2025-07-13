@@ -154,3 +154,64 @@ public class ContactsMenu {
             System.out.println("Invalid choice.");
         }
     }
+private void advancedFilter() {
+        System.out.println("Enter filter values (leave blank to ignore an attribute):");
+        System.out.print("Name (Last_First): ");
+        String name = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String phone = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Address (Line_City): ");
+        String address = scanner.nextLine();
+        System.out.print("Birthday (DD/MM/YYYY): ");
+        String birthday = scanner.nextLine();
+        System.out.print("Company: ");
+        String company = scanner.nextLine();
+        List<Contact> results = manager.advancedFilter(name, phone, email, address, birthday, company);
+        System.out.println("\nTotal Matches: " + results.size());
+        for (Contact c : results) {
+            System.out.println(c);
+        }
+        if (results.size() > 0) {
+            System.out.print("Edit (E) / Delete (D) / Back (B): ");
+            String action = scanner.nextLine().toUpperCase();
+            if (action.equals("D")) {
+                System.out.print("Enter the name of the contact to delete: ");
+                String delName = scanner.nextLine();
+                Contact toDelete = null;
+                for (Contact c : results) {
+                    if (c.getName().equalsIgnoreCase(delName)) {
+                        toDelete = c;
+                        break;
+                    }
+                }
+                if (toDelete != null) {
+                    manager.deleteContact(toDelete);
+                    System.out.println("Contact deleted.");
+                } else {
+                    System.out.println("No contact with that name in the results.");
+                }
+            } else if (action.equals("E")) {
+                System.out.print("Enter the name of the contact to edit: ");
+                String editName = scanner.nextLine();
+                Contact toEdit = null;
+                for (Contact c : results) {
+                    if (c.getName().equalsIgnoreCase(editName)) {
+                        toEdit = c;
+                        break;
+                    }
+                }
+                if (toEdit != null) {
+                    editContact(toEdit);
+                } else {
+                    System.out.println("No contact with that name in the results.");
+                }
+            } else if (!action.equals("B")) {
+                System.out.println("Invalid action. Returning to menu.");
+            }
+        } else {
+            System.out.println("No matching contacts found.");
+        }
+    }
+}
