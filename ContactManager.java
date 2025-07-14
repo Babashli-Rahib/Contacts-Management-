@@ -19,13 +19,13 @@ public class ContactManager {
         }
     }
  public void saveContacts(String filename) {
-        try (PrintWriter writer = new PrintWriter(filename)) {
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(filename, true))) {
             for (Contact c : contacts) {
                 writer.println(c.getName() + "," + c.getPhoneNumber() + "," + c.getEmail() + "," + c.getAddress() + "," + c.getBirthday() + "," + c.getCompany().getName() + "," + c.getCompany().getCity());
             }
-            System.out.println("Contacts saved successfully.");
+            System.out.println("Contacts appended successfully.");
         } catch (IOException e) {
-            System.out.println("Error saving contacts.");
+            System.out.println("Error appending contacts.");
         }
     }
 public void addContact(Contact c) {
@@ -64,7 +64,7 @@ public void addContact(Contact c) {
             case 3: comparator = Comparator.comparing(Contact::getEmail); break;
             case 4: comparator = Comparator.comparing(Contact::getAddress); break;
             case 5: comparator = Comparator.comparing(Contact::getBirthday); break;
-            case 6: comparator = Comparator.comparing(Contact::getCompany); break;
+            case 6: comparator = Comparator.comparing(c -> c.getCompany().getName()); break;
             default: return;
         }
         contacts.sort(comparator);
