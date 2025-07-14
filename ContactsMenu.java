@@ -36,7 +36,7 @@ public class ContactsMenu {
     }
 
     private void addContact() {
-        String name, phone, email, address, birthday, company;
+        String name, phone, email, address, birthday, companyName, companyCity;
         while (true) {
             System.out.print("Enter Name (Last_First): ");
             name = scanner.nextLine();
@@ -81,12 +81,24 @@ public class ContactsMenu {
             break;
         }
         while (true) {
-            System.out.print("Enter Company: ");
-            company = scanner.nextLine();
-            if (!ContactUtils.isNotEmpty(company)) { 
-                System.out.println("Company cannot be empty."); continue; }
+           System.out.print("Enter Company Name: ");
+            companyName = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(companyName)) { 
+                System.out.println("Company name cannot be empty."); 
+                continue; 
+            }
             break;
         }
+        while (true) {
+            System.out.print("Enter Company City: ");
+            companyCity = scanner.nextLine();
+            if (!ContactUtils.isNotEmpty(companyCity)) { 
+                System.out.println("Company city cannot be empty."); 
+                continue; 
+            }
+            break;
+        }
+        Company company = new Company(companyName, companyCity);
         manager.addContact(new Contact(name, phone, email, address, birthday, company));
         System.out.println("Contact added successfully.");
     }
