@@ -150,9 +150,19 @@ public class ContactsMenu {
         System.out.print("New Birthday (" + c.getBirthday() + "): ");
         input = scanner.nextLine();
         if (ContactUtils.isNotEmpty(input)) c.setBirthday(input);
-        System.out.print("New Company (" + c.getCompany() + "): ");
-        input = scanner.nextLine();
-        if (ContactUtils.isNotEmpty(input)) c.setCompany(input);
+        String oldCompanyName = "";
+        String oldCompanyCity = "";
+        if (c.getCompany() != null) {
+            oldCompanyName = c.getCompany().getName();
+            oldCompanyCity = c.getCompany().getCity();
+        }
+        System.out.print("New Company Name (" + oldCompanyName + "): ");
+        String companyName = scanner.nextLine();
+        if (!ContactUtils.isNotEmpty(companyName)) companyName = oldCompanyName;
+        System.out.print("New Company City (" + oldCompanyCity + "): ");
+        String companyCity = scanner.nextLine();
+        if (!ContactUtils.isNotEmpty(companyCity)) companyCity = oldCompanyCity;
+        c.setCompany(new Company(companyName, companyCity));
         System.out.println("Contact updated.");
     }
     private void sortContacts() {
