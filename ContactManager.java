@@ -9,8 +9,9 @@ public class ContactManager {
         try (Scanner fileScanner = new Scanner(new File(filename))) {
             while (fileScanner.hasNextLine()) {
                 String[] parts = fileScanner.nextLine().split(",");
-                if (parts.length == 6) {
-                    contacts.add(new Contact(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
+                if (parts.length == 7) {
+                    Company company = new Company(parts[5], parts[6]);
+                    contacts.add(new Contact(parts[0], parts[1], parts[2], parts[3], parts[4], company));
                 }
             }
         } catch (IOException e) {
@@ -20,7 +21,7 @@ public class ContactManager {
  public void saveContacts(String filename) {
         try (PrintWriter writer = new PrintWriter(filename)) {
             for (Contact c : contacts) {
-                writer.println(c.getName() + "," + c.getPhoneNumber() + "," + c.getEmail() + "," + c.getAddress() + "," + c.getBirthday() + "," + c.getCompany());
+                writer.println(c.getName() + "," + c.getPhoneNumber() + "," + c.getEmail() + "," + c.getAddress() + "," + c.getBirthday() + "," + c.getCompany().getName() + "," + c.getCompany().getCity());
             }
             System.out.println("Contacts saved successfully.");
         } catch (IOException e) {
@@ -44,7 +45,7 @@ public void addContact(Contact c) {
                 c.getEmail().toLowerCase().contains(q) ||
                 c.getAddress().toLowerCase().contains(q) ||
                 c.getBirthday().toLowerCase().contains(q) ||
-                c.getCompany().toLowerCase().contains(q)) {
+                c.getCompany().getName().toLowerCase().contains(q)) {
                 return c;
             }
         }
@@ -77,7 +78,7 @@ public void addContact(Contact c) {
                 (!ContactUtils.isNotEmpty(email)    || c.getEmail().toLowerCase().contains(email.toLowerCase())) &&
                 (!ContactUtils.isNotEmpty(address)  || c.getAddress().toLowerCase().contains(address.toLowerCase())) &&
                 (!ContactUtils.isNotEmpty(birthday) || c.getBirthday().toLowerCase().contains(birthday.toLowerCase())) &&
-                (!ContactUtils.isNotEmpty(company)  || c.getCompany().toLowerCase().contains(company.toLowerCase()))) {
+                (!ContactUtils.isNotEmpty(company)  || c.getCompany().getName().toLowerCase().contains(company.toLowerCase()))) {
                 results.add(c);
             }
         }
