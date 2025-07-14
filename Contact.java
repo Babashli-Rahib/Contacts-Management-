@@ -6,9 +6,9 @@ public class Contact implements Serializable {
     private String email;
     private String address; 
     private String birthday;
-    private String company;
+    private Company company;
 
-    public Contact(String name, String phoneNumber, String email, String address, String birthday, String company) {
+   public Contact(String name, String phoneNumber, String email, String address, String birthday, Company company) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -32,10 +32,9 @@ return address;
     public String getBirthday() { 
 return birthday; 
 }
-    public String getCompany() { 
-return company;
-        
-    }
+    public Company getCompany() {
+return company; }
+}
 
     public void setPhoneNumber(String phoneNumber) {
 this.phoneNumber = phoneNumber; 
@@ -49,8 +48,8 @@ this.address = address;
     public void setBirthday(String birthday) { 
 this.birthday = birthday; 
 }
-    public void setCompany(String company) { 
-this.company = company; 
+   public void setCompany(Company company) { 
+this.company = company;  
 }
 
     @Override
