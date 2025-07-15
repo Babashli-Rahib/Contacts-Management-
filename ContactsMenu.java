@@ -113,16 +113,45 @@ public class ContactsMenu {
     private void searchContact() {
         System.out.print("Search by Name/Phone/Email/Address/Birthday/Company: ");
         String query = scanner.nextLine().toLowerCase();
-        Contact c = manager.searchContact(query);
-        if (c != null) {
-            System.out.println(c);
+        List<Contact> results = manager.searchContacts(query);
+        if (results.size() > 0) {
+            System.out.println("\nTotal Matches: " + results.size());
+            for (Contact c : results) {
+                System.out.println(c);
+            }
             System.out.print("Edit (E) / Delete (D) / Back (B): ");
             String action = scanner.nextLine().toUpperCase();
             if (action.equals("D")) {
-                manager.deleteContact(c);
-                System.out.println("Contact deleted.");
+                System.out.print("Enter the name of the contact to delete: ");
+                String delName = scanner.nextLine();
+                Contact toDelete = null;
+                for (Contact c : results) {
+                    if (c.getName().equalsIgnoreCase(delName)) {
+                        toDelete = c;
+                        break;
+                    }
+                }
+                if (toDelete != null) {
+                    manager.deleteContact(toDelete);
+                    System.out.println("Contact deleted.");
+                } else {
+                    System.out.println("No contact with that name in the results.");
+                }
             } else if (action.equals("E")) {
-                editContact(c);
+               System.out.print("Enter the name of the contact to edit: ");
+                String editName = scanner.nextLine();
+                Contact toEdit = null;
+                for (Contact c : results) {
+                    if (c.getName().equalsIgnoreCase(editName)) {
+                        toEdit = c;
+                        break;
+                    }
+                }
+                if (toEdit != null) {
+                    editContact(toEdit);
+                } else {
+                    System.out.println("No contact with that name in the results.");
+                } 
             } else if (!action.equals("B")) {
                 System.out.println("Invalid action. Returning to menu.");
             }
