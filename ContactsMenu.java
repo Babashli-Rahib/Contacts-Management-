@@ -43,27 +43,43 @@ public class ContactsMenu {
             if (!ContactUtils.isNotEmpty(name)) { 
                 System.out.println("Name cannot be empty."); continue; 
             }
-            break;
-        }
-        while (true) {
-            System.out.print("Enter Phone Number: ");
-            phone = scanner.nextLine();
-            if (!ContactUtils.isNotEmpty(phone)) { 
-                System.out.println("Phone cannot be empty."); 
-                continue; }
-            if (!ContactUtils.isValidPhone(phone)) { 
-                System.out.println("Phone must be numeric."); continue; 
+            if (!ContactUtils.isValidName(name)) {
+                System.out.println("Name must contain only letters and underscore, e.g. Rahib_Babashli."); continue;
             }
             break;
         }
         while (true) {
-            System.out.print("Enter Email: ");
+            System.out.print("Enter Phone Number (format: +994 10 123 12 12): ");
+            phone = scanner.nextLine();
+            if (!ContactUtils.isValidPhoneInput(phone)) {
+                System.out.println("Phone number must contain only digits, + and spaces. Letters are not allowed.");
+                continue;
+            }
+            phone = ContactUtils.formatPhone(phone);
+            if (!ContactUtils.isNotEmpty(phone)) { 
+                System.out.println("Phone cannot be empty."); 
+                continue; }
+            if (!ContactUtils.isValidPhone(phone)) { 
+                System.out.println("Phone must be in format +994 10 123 12 12."); continue; 
+            }
+            break;
+        }
+   
+        while (true) {
+            System.out.print("Enter Email (must be in the format: name@gmail.com): ");
             email = scanner.nextLine();
+            email = ContactUtils.formatEmail(email);
             if (!ContactUtils.isNotEmpty(email)) { 
                 System.out.println("Email cannot be empty."); 
                 continue; }
-            if (!ContactUtils.isValidEmail(email)) { System.out.println("Invalid email format."); 
-                continue; }
+            if (!ContactUtils.isValidEmail(email)) { 
+                System.out.println("Email must be in the format: adiniz@gmail.com"); 
+                continue; 
+            }
+            if (!ContactUtils.isValidEmailNoDigits(email)) { 
+                System.out.println("Email must not contain digits, only letters and @gmail.com.");
+                continue; 
+            }
             break;
         }
         while (true) {
@@ -78,6 +94,9 @@ public class ContactsMenu {
             birthday = scanner.nextLine();
             if (!ContactUtils.isNotEmpty(birthday)) { 
                 System.out.println("Birthday cannot be empty."); continue; }
+            if (!ContactUtils.isValidBirthday(birthday)) {
+                System.out.println("Birthday must be in format DD/MM/YYYY and only digits."); continue;
+            }
             break;
         }
         while (true) {
@@ -87,6 +106,9 @@ public class ContactsMenu {
                 System.out.println("Company name cannot be empty."); 
                 continue; 
             }
+            if (!ContactUtils.isValidCompanyName(companyName)) {
+                System.out.println("Company name must contain only letters."); continue;
+            }
             break;
         }
         while (true) {
@@ -95,6 +117,9 @@ public class ContactsMenu {
             if (!ContactUtils.isNotEmpty(companyCity)) { 
                 System.out.println("Company city cannot be empty."); 
                 continue; 
+            }
+            if (!ContactUtils.isValidCity(companyCity)) {
+                System.out.println("Company city must contain only letters."); continue;
             }
             break;
         }
@@ -164,12 +189,18 @@ public class ContactsMenu {
         System.out.print("New Phone (" + c.getPhoneNumber() + "): ");
         input = scanner.nextLine();
         if (ContactUtils.isNotEmpty(input)) {
-            if (ContactUtils.isValidPhone(input)) c.setPhoneNumber(input);
-            else System.out.println("Invalid phone. Keeping previous value.");
+            if (!ContactUtils.isValidPhoneInput(input)) {
+                System.out.println("Phone number must contain only digits, + and spaces. Letters are not allowed.");
+            } else {
+                input = ContactUtils.formatPhone(input);
+                if (ContactUtils.isValidPhone(input)) c.setPhoneNumber(input);
+                else System.out.println("Invalid phone. Keeping previous value.");
+            }
         }
         System.out.print("New Email (" + c.getEmail() + "): ");
         input = scanner.nextLine();
         if (ContactUtils.isNotEmpty(input)) {
+            input = ContactUtils.formatEmail(input);
             if (ContactUtils.isValidEmail(input)) c.setEmail(input);
             else System.out.println("Invalid email. Keeping previous value.");
         }
@@ -197,13 +228,25 @@ public class ContactsMenu {
     private void sortContacts() {
         System.out.println("Sort by: 1-Name 2-Phone 3-Email 4-Address 5-Birthday 6-Company");
         String choice = scanner.nextLine();
+        int attr;
         try {
-            int attr = Integer.parseInt(choice);
-            manager.sortContacts(attr);
-            System.out.println("Contacts sorted.");
+            attr = Integer.parseInt(choice);
         } catch (NumberFormatException e) {
             System.out.println("Invalid choice.");
+            return;
         }
+        boolean ascending = true;
+        if (attr == 1 || attr == 3 || attr == 6) {
+            System.out.print("Sort alphabetically ascending (A) or descending (D)? ");
+            String order = scanner.nextLine().trim().toUpperCase();
+            if (order.equals("D")) ascending = false;
+        } else if (attr == 2 || attr == 5) {
+            System.out.print("Sort numerically ascending (A) or descending (D)? ");
+            String order = scanner.nextLine().trim().toUpperCase();
+            if (order.equals("D")) ascending = false;
+        }
+        manager.sortContacts(attr, ascending);
+        System.out.println("Contacts sorted.");
     }
 private void advancedFilter() {
         System.out.println("Enter filter values (leave blank to ignore an attribute):");
