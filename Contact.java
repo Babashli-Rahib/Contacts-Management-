@@ -33,7 +33,7 @@ return address;
 return birthday; 
 }
     public Company getCompany() {
-return company; }
+return company; 
 }
 
     public void setPhoneNumber(String phoneNumber) {
