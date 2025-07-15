@@ -9,7 +9,10 @@ public class ContactManager {
         try (Scanner fileScanner = new Scanner(new File(filename))) {
             while (fileScanner.hasNextLine()) {
                 String[] parts = fileScanner.nextLine().split(",");
-                if (parts.length == 7) {
+                if (parts.length == 6) {
+                    Company company = new Company(parts[5], "");
+                    contacts.add(new Contact(parts[0], parts[1], parts[2], parts[3], parts[4], company));
+                } else if (parts.length == 7) {
                     Company company = new Company(parts[5], parts[6]);
                     contacts.add(new Contact(parts[0], parts[1], parts[2], parts[3], parts[4], company));
                 }
@@ -31,14 +34,18 @@ public class ContactManager {
 public void addContact(Contact c) {
         contacts.add(c);
     }
+    
     public List<Contact> getContacts() {
         return contacts;
     }
+    
     public int getContactCount() {
         return contacts.size();
     }
-   public Contact searchContact(String query) {
+    
+   public List<Contact> searchContacts(String query) {
         String q = query.toLowerCase();
+        List<Contact> results = new ArrayList<>();
         for (Contact c : contacts) {
             if (c.getName().toLowerCase().contains(q) ||
                 c.getPhoneNumber().toLowerCase().contains(q) ||
@@ -46,10 +53,10 @@ public void addContact(Contact c) {
                 c.getAddress().toLowerCase().contains(q) ||
                 c.getBirthday().toLowerCase().contains(q) ||
                 c.getCompany().getName().toLowerCase().contains(q)) {
-                return c;
+                results.add(c);
             }
         }
-        return null;
+        return results;
     }
 
     public boolean deleteContact(Contact c) {
