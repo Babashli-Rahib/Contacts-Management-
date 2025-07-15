@@ -63,17 +63,18 @@ public void addContact(Contact c) {
         return contacts.remove(c);
     }
 
-    public void sortContacts(int attribute) {
+    public void sortContacts(int attribute, boolean ascending) {
         Comparator<Contact> comparator;
         switch (attribute) {
-            case 1: comparator = Comparator.comparing(Contact::getName); break;
+            case 1: comparator = Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER); break;
             case 2: comparator = Comparator.comparing(Contact::getPhoneNumber); break;
-            case 3: comparator = Comparator.comparing(Contact::getEmail); break;
-            case 4: comparator = Comparator.comparing(Contact::getAddress); break;
+            case 3: comparator = Comparator.comparing(Contact::getEmail, String.CASE_INSENSITIVE_ORDER); break;
+            case 4: comparator = Comparator.comparing(Contact::getAddress, String.CASE_INSENSITIVE_ORDER); break;
             case 5: comparator = Comparator.comparing(Contact::getBirthday); break;
-            case 6: comparator = Comparator.comparing(c -> c.getCompany().getName()); break;
+            case 6: comparator = Comparator.comparing(c -> c.getCompany().getName(), String.CASE_INSENSITIVE_ORDER); break;
             default: return;
         }
+        if (!ascending) comparator = comparator.reversed();
         contacts.sort(comparator);
     }
 
