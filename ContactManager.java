@@ -22,13 +22,13 @@ public class ContactManager {
         }
     }
  public void saveContacts(String filename) {
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(filename, true))) {
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(filename, false))) {
             for (Contact c : contacts) {
                 writer.println(c.getName() + "," + c.getPhoneNumber() + "," + c.getEmail() + "," + c.getAddress() + "," + c.getBirthday() + "," + c.getCompany().getName() + "," + c.getCompany().getCity());
             }
-            System.out.println("Contacts appended successfully.");
+            System.out.println("Contacts saved successfully.");
         } catch (IOException e) {
-            System.out.println("Error appending contacts.");
+            System.out.println("Error saving contacts.");
         }
     }
 public void addContact(Contact c) {
